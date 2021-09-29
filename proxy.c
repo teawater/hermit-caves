@@ -323,7 +323,7 @@ static int qemu_init(char *path)
 	if (str)
 		qemu_argv[0] = qemu_str = str;
 
-	snprintf(hostfwd, MAX_PATH, "user,hostfwd=tcp:127.0.0.1:%u-:%u", port, port);
+	snprintf(hostfwd, MAX_PATH, "user,hostfwd=tcp:127.0.0.1:%u-:%u,hostfwd=tcp::8082-:8082", port, port);
 	snprintf(monitor_str, MAX_PATH, "telnet:127.0.0.1:%d,server,nowait", port+1);
 
 	if (mkstemp(pidname) < 0)
@@ -404,6 +404,7 @@ static int qemu_init(char *path)
 
 		// add flag to start gdbserver on TCP port 1234
 		qemu_argv[i] = "-s";
+		qemu_argv[i+1] = "-S";
 	}
 
 	str = getenv("HERMIT_CAPTURE_NET");
